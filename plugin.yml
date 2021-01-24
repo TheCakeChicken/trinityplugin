@@ -1,0 +1,5 @@
+main: com.alyxferrari.servercensor.ServerCensor
+name: ServerCensor
+version: 1.0
+author: Alyx Ferrari
+description: Custom slur-censoring plugin written by admin Alyx
