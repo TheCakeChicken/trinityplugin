@@ -6,12 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import java.io.*;
 import java.util.*;
-public class ServerCensor extends JavaPlugin {
+public class ServerCensor extends JavaPlugin implements Listener {
 	private ArrayList<PlayerOffense> offenses;
 	private ArrayList<String> slurs;
 	@Override
 	public void onEnable() {
-		System.out.println(System.getProperty("user.dir"));
+		this.getServer().getPluginManager().registerEvents(this, (this));
 		offenses = new ArrayList<PlayerOffense>();
 		slurs = new ArrayList<String>();
 		try {
@@ -60,8 +60,10 @@ public class ServerCensor extends JavaPlugin {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerChat(PlayerChatEvent event) {
+		System.out.println("player chat");
+		System.out.println(slurs.get(0));
 		if (checkSlur(event.getMessage())) {
-			event.setCancelled(false);
+			event.setCancelled(true);
 			incrementOffenses(event.getPlayer());
 			punish(event.getPlayer());
 		}
