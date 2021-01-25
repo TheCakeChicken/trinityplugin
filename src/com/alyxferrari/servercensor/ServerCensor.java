@@ -3,6 +3,7 @@ import org.bukkit.plugin.java.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 import org.bukkit.Bukkit;
+import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import java.io.*;
 import java.util.*;
@@ -102,5 +103,31 @@ public class ServerCensor extends JavaPlugin implements Listener {
 				}
 			}
 		}
+	}
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (command.getName().equalsIgnoreCase("pronouns")) {
+			if (args.length < 1 || args.length > 2 || !args[0].contains("/")) {
+				sender.sendMessage("\u00A7cOh no! Your pronouns were not set. Correct usage:\n/pronouns <type pronouns here> [alignment]\nFor example: /pronouns he/they masculine\nAlignment can be masculine, feminine, or nb");
+				return true;
+			}
+			if (args.length == 1) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " permission set \"prefix.1.&r[&6" + args[0] + "&r] \"");
+				sender.sendMessage("&aPronouns set!");
+				return true;
+			} else if (args.length == 2) {
+				String color = "&6";
+				if (args[1].equalsIgnoreCase("masculine")) {
+					color = "&b";
+				} else if (args[1].equalsIgnoreCase("feminine")) {
+					color = "&d";
+				}
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " permission set \"prefix.1.&r[" + color + args[0] + "&r] \"");
+				sender.sendMessage("&aPronouns set!");
+				return true;
+			}
+			return true;
+		}
+		return false;
 	}
 }
