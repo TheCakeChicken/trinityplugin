@@ -1,6 +1,6 @@
 main: com.alyxferrari.servercensor.ServerCensor
 name: ServerCensor
-version: 1.0
+version: 1.3
 author: Alyx Ferrari
 description: Custom slur-censoring plugin written by admin Alyx
 commands:
@@ -8,4 +8,16 @@ commands:
       description: Sets your pronouns.
       usage: /pronouns <type pronouns here>
       permission: customalyx.pronouns
-      permission-message:
+   report:
+      description: Report bad behavior.
+      usage: /report <username> <reason>
+      permission: customalyx.report
+   spawn:
+      description: Alias for /warp spawn
+      usage: /spawn
+      permission: customalyx.spawn
+   is:
+      description: Island command
+      usage: /is
+      permission: customalyx.skyblock
+      aliases: [island, skyblock, sb]
