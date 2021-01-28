@@ -16,18 +16,24 @@ public class ServerCensor extends JavaPlugin implements Listener {
 	private ArrayList<PlayerKitState> hasKit;
 	private ArrayList<Player> players;
 	private String[] announcements = {
-			"Remember to set your pronouns with /pronouns!",
-			"You can use /report to report players who are not behaving appropriately, for example, bypassing the chat filter.",
-			"Have you checked out the shop yet? You can use it anytime to buy valuable items with serotonin, our in-game currency. Try running /buy or /sell!",
+			"Remember to set your pronouns with \u00A7d/pronouns\u00A76!",
+			"You can use \u00A7d/report\u00A76 to report players who are not behaving appropriately, for example, bypassing the chat filter.",
+			"Have you checked out the shop yet? You can use it anytime to buy valuable items with serotonin, our in-game currency. Try running \u00A7d/buy\u00A76 or \u00A7d/sell\u00A76!",
 			"Want to have your build protected from griefers like the village? Ask an admin, we'll be glad to help you!",
 			"Want your building masterpiece on display? Ask an admin to apply to claim a plot in the village!",
 			"Tell an admin if you have constructive criticism, a suggestion, or if you've found a bug on the server!",
 			"Swearing is fine, but all slurs, including the T and Q slur, are not allowed on this server, as they are a trigger for some people.",
 			"If you believe you've been muted or banned unfairly, contact an admin or moderator.",
 			"If you accidentally declined the server resource pack, you can accept it if you edit the server on your server list.",
-			"Did you know? There are four secret areas hidden throughout the village. Find them to claim 200 serotonin each!",
-			"Use of tone indicators is highly encouraged! If you don't know what these are or need a refresher, check our Linktree.", 
-			"Stuck in an area and can't get out? Try warping to the village with /warp spawn!"};
+			"Did you know? There are six secret areas hidden throughout the village. Find them to claim 200 serotonin each!",
+			"Use of tone indicators is highly encouraged! If you don't know what these are or need a refresher, check our Linktree.",
+			"Stuck in an area and can't get out? Try warping to the village with \u00A7d/warp spawn\u00A76!",
+			"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
+			"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
+			"We have pride banners! Run \u00A7d/kit pride\u00A76 to receive them! We're working on adding more banners to the kit.",
+			"Contact an admin if you think an item should be in the shop, but isn't!",
+			"Everyone can redeem \u00A7d/kit starter\u00A76 once! It includes essential items for starting out in SMP."
+			};
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, (this));
@@ -96,13 +102,22 @@ public class ServerCensor extends JavaPlugin implements Listener {
 		new Thread() {
 			@Override
 			public void run() {
+				int firstIndex = -1;
+				int secondIndex = -1;
+				int thirdIndex = -1;
 				while (isEnabled()) {
 					try {
-						Thread.sleep(1000*60*10);
-						int index = (int) (Math.random()*(announcements.length-1));
+						Thread.sleep(1000*60*8);
+						int index = firstIndex;
+						while (index == firstIndex || index == secondIndex || index == thirdIndex) {
+							index = (int) (Math.random()*(announcements.length-1));
+						}
 						for (int i = 0; i < players.size(); i++) {
 							players.get(i).sendMessage("\u00A72[\u00A7aANNOUNCEMENT\u00A72]: \u00A76" + announcements[index]);
 						}
+						firstIndex = secondIndex;
+						secondIndex = thirdIndex;
+						thirdIndex = index;
 					} catch (InterruptedException ex) {
 						ex.printStackTrace();
 					}
@@ -240,21 +255,21 @@ public class ServerCensor extends JavaPlugin implements Listener {
 			}
 			if (args.length == 0) {
 				if (Files.isDirectory(Paths.get("skyblock_" + uuid))) {
-					sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is help - display this usage sheet");
-					return true;
+					sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is delete - delete your island\n/is help - display this usage sheet");
 				} else {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvclone skyblock skyblock_" + uuid);
 					sender.sendMessage("\u00A7aSkyblock island created!");
 					sender.sendMessage("\u00A7aRun \u00A7d/is go \u00A7ato teleport to your island.");
-					return true;
 				}
+				return true;
 			} else if (args.length == 1) {
 				if (args[0].equalsIgnoreCase("go")) {
 					if (Files.isDirectory(Paths.get("skyblock_" + uuid))) {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvtp " + sender.getName() + " skyblock_" + uuid);
 					} else {
-						sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is help - display this usage sheet");
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + sender.getName() + " is");
 					}
+					return true;
 				} else if (args[0].equalsIgnoreCase("create")) {
 					if (Files.isDirectory(Paths.get("skyblock_" + uuid))) {
 						sender.sendMessage("\u00A7cYou already have a skyblock island. Are you sure you want to reset your island? Run \u00A76/is forcecreate\u00A7c to confirm.");
@@ -263,19 +278,43 @@ public class ServerCensor extends JavaPlugin implements Listener {
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvtp " + sender.getName() + " skyblock_" + uuid);
 						sender.sendMessage("\u00A7aSkyblock island created!");
 					}
+					return true;
 				} else if (args[0].equalsIgnoreCase("forcecreate")) {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvdelete skyblock_" + uuid);
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvconfirm");
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvclone skyblock skyblock_" + uuid);
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvtp " + sender.getName() + " skyblock_" + uuid);
 					sender.sendMessage("\u00A7aSkyblock island created!");
+					return true;
+				} else if (args[0].equalsIgnoreCase("delete")) {
+					if (Files.isDirectory(Paths.get("skyblock_" + uuid))) {
+						sender.sendMessage("\u00A7cAre you sure you want to delete your island? This action is irreversible.\nRun \u00A76/is forcedelete\u00A7c to confirm.");
+					} else {
+						sender.sendMessage("\u00A7cYou do not have a skyblock island.");
+					}
+					return true;
+				} else if (args[0].equalsIgnoreCase("forcedelete")) {
+					if (Files.isDirectory(Paths.get("skyblock_" + uuid))) {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mvdelete skyblock_" + uuid);
+						sender.sendMessage("\u00A7aSkyblock island deleted!");
+					} else {
+						sender.sendMessage("\u00A7cYou do not have a skyblock island.");
+					}
+					return true;
 				} else {
-					sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is help - display this usage sheet");
+					sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is delete - delete your island\n/is help - display this usage sheet");
 				}
 				return true;
 			}
-			sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is help - display this usage sheet");
+			sender.sendMessage("\u00A7cCorrect usage:\n/is create - create a new island\n/is go - teleport to your island\n/is delete - delete your island\n/is help - display this usage sheet");
 			return true;
+		} else if (command.getName().equalsIgnoreCase("isnearest")) {
+			for (int i = 0; i < players.size(); i++) {
+				if (players.get(i).getWorld().getName().equalsIgnoreCase("skyblocktp")) {
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + players.get(i).getName() + " is go");
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + players.get(i).getName() + " is go");
+				}
+			}
 		}
 		return false;
 	}
