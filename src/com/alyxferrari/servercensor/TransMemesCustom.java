@@ -340,8 +340,8 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 				return true;
 			}
 			if (args.length == 1) {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta removeprefix 0");
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta addprefix 0 \"&r[&6" + args[0].toLowerCase() + "&r] \"");
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta removeprefix 1");
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta addprefix 1 \"&r[&6" + args[0].toLowerCase() + "&r] \"");
 				sender.sendMessage("\u00A7aPronouns set!");
 				return true;
 			} else if (args.length == 2) {
@@ -351,8 +351,8 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 				} else if (args[1].equalsIgnoreCase("feminine")) {
 					color = "&d";
 				}
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta removeprefix 0");
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta addprefix 0 \"&r[" + color + args[0].toLowerCase() + "&r] \"");
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta removeprefix 1");
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + sender.getName() + " meta addprefix 1 \"&r[" + color + args[0].toLowerCase() + "&r] \"");
 				sender.sendMessage("\u00A7aPronouns set!");
 				return true;
 			}
