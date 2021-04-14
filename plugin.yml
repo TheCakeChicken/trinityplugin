@@ -1,8 +1,9 @@
-main: com.alyxferrari.servercensor.ServerCensor
-name: ServerCensor
-version: 1.4
+main: com.alyxferrari.servercensor.TransMemesCustom
+name: trinityplugin
+version: 1.5
 author: Alyx Ferrari
-description: Custom slur-censoring plugin written by admin Alyx
+description: Custom plugin written by admin Alyx
+api-version: 1.16
 commands:
    pronouns:
       description: Sets your pronouns.
@@ -25,3 +26,28 @@ commands:
       description: Teleport nearest player to island
       usage: /isnearest
       permission: customalyx.isnearest
+   sell:
+      description: Forces /sell:sell
+      usage: /sell
+      permission: customalyx.sell
+   elytra:
+      description: Get moderator elytra
+      usage: /elytra <name>
+      permission: customalyx.elytra
+   bow:
+      description: Get bow
+      usage: /bow
+      permission: customalyx.bow
+   crossbow:
+      description: Get crossbow
+      usage: /crossbow
+      permission: customalyx.crossbow
+   score:
+      description: Get PvP KDR
+      usage: /score
+      permission: customalyx.score
+   trail:
+      description: Set particle trail
+      usage: /trail
+      permission: customalyx.trail
+      aliases: [trails]
