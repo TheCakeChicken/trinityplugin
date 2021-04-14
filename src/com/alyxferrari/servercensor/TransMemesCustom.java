@@ -206,9 +206,8 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}.start();
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void onPlayerChat(PlayerChatEvent event) {
+	public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
 		if (checkSlur(event.getMessage())) {
 			System.out.println("PLAYER SLUR WARNING: " + event.getPlayer().getName() + ": " + event.getMessage());
 			event.setCancelled(true);
