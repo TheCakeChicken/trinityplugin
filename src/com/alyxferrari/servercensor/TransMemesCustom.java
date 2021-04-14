@@ -261,6 +261,16 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}
 	}
 	@EventHandler
+	public void onPlayerBedEnter(PlayerBedEnterEvent event) {
+		new Thread() {
+			@Override
+			public void run() {
+				try {Thread.sleep(8000);} catch (InterruptedException ex) {}
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "weather clear");
+			}
+		}.start();
+	}
+	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		if (event.getEntity().getWorld().getName().equals("pvp")) {
 			Player killer = getKiller(event);

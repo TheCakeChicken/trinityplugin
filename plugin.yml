@@ -1,6 +1,6 @@
 main: com.alyxferrari.servercensor.TransMemesCustom
 name: trinityplugin
-version: 1.5
+version: 1.6
 author: Alyx Ferrari
 description: Custom plugin written by admin Alyx
 api-version: 1.16
