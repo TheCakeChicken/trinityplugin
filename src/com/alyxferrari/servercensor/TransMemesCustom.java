@@ -1,4 +1,5 @@
 package com.alyxferrari.servercensor;
+
 import org.bukkit.plugin.java.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
@@ -13,12 +14,15 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+
 public class TransMemesCustom extends JavaPlugin implements Listener {
+	
 	private ArrayList<PlayerOffense> offenses;
 	private ArrayList<String> slurs;
 	private ArrayList<PlayerKitState> hasKit;
 	private ArrayList<Player> players;
 	private ArrayList<PlayerKDR> kdr;
+	
 	private String[] announcements = {
 			"Remember to set your pronouns with \u00A7d/pronouns\u00A76!",
 			"You can use \u00A7d/report\u00A76 to report players who are not behaving appropriately, for example, bypassing the chat filter.",
@@ -41,7 +45,8 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			"If you donate or have donated $5 or more to a charity or person in need, send us proof of donation and we'll give you the VIP rank, which includes access to \u00A7d/nick\u00A76 and particle trails!",
 			"If you're in combat, don't spam your weapon! Java Edition has an attack cooldown, wait until the sword under your crosshair disappears before attacking again.",
 			"We have a discord server! Check the trans__memes_ link in bio or ask someone for an invite link."
-			};
+	};
+	
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, (this));
@@ -87,6 +92,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}
 		startThreads();
 	}
+	
 	@Override
 	public void onDisable() {
 		try {
@@ -112,6 +118,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}
 		offenses = null;
 	}
+	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		players.add(event.getPlayer());
@@ -123,6 +130,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		kdr.add(new PlayerKDR(event.getPlayer().getUniqueId().toString(), 0, 0));
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "money create " + event.getPlayer().getName());
 	}
+	
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event) {
 		for (int i = 0; i < players.size(); i++) {
@@ -132,6 +140,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		}
 	}
+	
 	private void startThreads() {
 		new Thread() {
 			@Override
@@ -196,9 +205,9 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		}.start();
 	}
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
-	public void onPlayerChat(PlayerChatEvent event) {
+	public void onPlayerChatted(AsyncPlayerChatEvent event) {
 		if (checkSlur(event.getMessage())) {
 			System.out.println("PLAYER SLUR WARNING: " + event.getPlayer().getName() + ": " + event.getMessage());
 			event.setCancelled(true);
@@ -206,6 +215,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			punish(event.getPlayer());
 		}
 	}
+	
 	private boolean checkSlur(String toCheck) {
 		for (int i = 0; i < slurs.size(); i++) {
 			if (toCheck.contains(slurs.get(i))) {
@@ -214,6 +224,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}
 		return false;
 	}
+	
 	private void incrementOffenses(Player player) {
 		for (int i = 0; i < offenses.size(); i++) {
 			if (offenses.get(i).getUUID().equals(player.getUniqueId().toString())) {
@@ -223,6 +234,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}
 		offenses.add(new PlayerOffense(player.getUniqueId().toString(), 1));
 	}
+	
 	private void punish(Player player) {
 		for (int i = 0; i < offenses.size(); i++) {
 			PlayerOffense offense = offenses.get(i);
@@ -241,6 +253,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		}
 	}
+	
 	@EventHandler
 	public void onCommandPreprocessing(PlayerCommandPreprocessEvent event) {
 		if (event.getPlayer().getWorld().getName().equalsIgnoreCase("pvp")) {
@@ -260,6 +273,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		}
 	}
+	
 	@EventHandler
 	public void onPlayerBedEnter(PlayerBedEnterEvent event) {
 		new Thread() {
@@ -270,6 +284,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		}.start();
 	}
+	
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		if (event.getEntity().getWorld().getName().equals("pvp")) {
@@ -298,6 +313,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		}
 	}
+	
 	public static Player getKiller(PlayerDeathEvent event) { // adapted from minecrell source
 		EntityDamageEvent damage = event.getEntity().getLastDamageCause();
 		if (damage != null && !damage.isCancelled() && damage instanceof EntityDamageByEntityEvent) {
@@ -314,6 +330,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}
 		return null;
 	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (command.getName().equalsIgnoreCase("pronouns")) {
