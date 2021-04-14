@@ -206,8 +206,9 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		}.start();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void onPlayerChatted(AsyncPlayerChatEvent event) {
+	public void onPlayerChat(PlayerChatEvent event) {
 		if (checkSlur(event.getMessage())) {
 			System.out.println("PLAYER SLUR WARNING: " + event.getPlayer().getName() + ": " + event.getMessage());
 			event.setCancelled(true);
@@ -240,7 +241,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			PlayerOffense offense = offenses.get(i);
 			if (offense.getUUID().equals(player.getUniqueId().toString())) {
 				if (offense.getOffenses() >= 3) {
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ban " + player.getName() + " Slurs are not allowed on this server.\nDM @trans__memes_ to appeal this permanent ban.");
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ban " + player.getName() + " Slurs are not allowed on this server.\nDM #ban-appeals to appeal this permanent ban.");
 					// ban
 				} else if (offense.getOffenses() >= 2) {
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mute " + player.getName() + " 10m");
