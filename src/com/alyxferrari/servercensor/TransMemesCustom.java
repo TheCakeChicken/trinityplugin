@@ -155,9 +155,9 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 						while (index == firstIndex || index == secondIndex || index == thirdIndex) {
 							index = (int) (Math.random()*(announcements.length-1));
 						}
-						for (int i = 0; i < players.size(); i++) {
-							players.get(i).sendMessage("\u00A72[\u00A7aANNOUNCEMENT\u00A72]: \u00A76" + announcements[index]);
-						}
+						
+						getServer().broadcastMessage("\u00A72[\u00A7aANNOUNCEMENT\u00A72]: \u00A76" + announcements[index]);
+						
 						firstIndex = secondIndex;
 						secondIndex = thirdIndex;
 						thirdIndex = index;
