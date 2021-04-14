@@ -6,6 +6,10 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Alyx Ferrari/Downloads/Spigot/Spigot-API/target/spigot-api-1.16.5-R0.1-SNAPSHOT-shaded.jar"/>
+	<classpathentry kind="lib" path="spigot-api-1.16.5-R0.1-20210409.230338-42-shaded.jar" sourcepath="spigot/spigot-api-1.16.5-R0.1-20210409.230338-42-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="https://hub.spigotmc.org/javadocs/spigot"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
