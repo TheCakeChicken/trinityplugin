@@ -55,6 +55,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 		hasKit = new ArrayList<PlayerKitState>();
 		players = new ArrayList<Player>();
 		kdr = new ArrayList<PlayerKDR>();
+		
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("servercensor.cfg")));
 			String line;
