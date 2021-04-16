@@ -20,9 +20,9 @@ public class PlayerKDR {
 	public float getKDR() {
 		float kills = (float) this.kills;
 		float deaths = (float) this.deaths;
-		if (deaths < 1.0f) {
-			deaths = 1.0f;
-		}
+		
+		deaths = (deaths < 1.0f) ? 1.0f : deaths;
+
 		return kills / deaths;
 	}
 	public void incrementKills() {
