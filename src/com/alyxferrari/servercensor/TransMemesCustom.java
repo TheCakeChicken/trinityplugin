@@ -32,7 +32,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			"Tell an admin if you have constructive criticism or a suggestion!",
 			"Swearing is fine, but all slurs, including the T slur, are not allowed on this server, as they are a trigger for some people. ",
 			"If you believe you've been muted or banned unfairly, message #ban-appeals on the Discord server.",
-			"Use of tone indicators is highly encouraged! If you don't know what these are or need a refresher, check the trans__memes_ link in bio.",
+			"Use of tone indicators is highly encouraged! If you don't know what these are or need a refresher, check the trans__memes_ link in bio, or use \u00A7d/tone\u00A76 for the basics.",
 			"Stuck in an area and can't get out? Try warping to the village with \u00A7d/warp spawn\u00A76.",
 			"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
 			"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
@@ -541,6 +541,23 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 		} else if (command.getName().equalsIgnoreCase("trail") || command.getName().equalsIgnoreCase("trails")) {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + sender.getName() + " pp");
+			return true;
+		} else if (command.getName().equalsIgnoreCase("tone")) {
+			String[] tones = {
+				"/j = joking",
+				"hj = half joking",
+				"/s = sarcastic / sarcasm",
+				"/srs = serious",
+				"/nsrs = not serious",
+				"/g = genuine / genuine question",
+				"/ref = reference",
+				"/t = teasing"
+			};
+			
+			for (String tone : tones){
+				sender.sendMessage("\u00A7a" + tone);
+			}
+
 			return true;
 		}
 		return false;
