@@ -51,3 +51,7 @@ commands:
       usage: /trail
       permission: customalyx.trail
       aliases: [trails]
+   tone:
+      description: Summarised list of tone indicators
+      usage: /tone
+      permission: customalyx.tone
