@@ -86,3 +86,4 @@ fabric.properties
 
 # Maven output files
 target/*
+/target/

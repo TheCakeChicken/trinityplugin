@@ -7,12 +7,10 @@ import org.bukkit.event.player.*;
 import org.bukkit.enchantments.*;
 import org.bukkit.event.entity.*;
 import org.bukkit.inventory.*;
-import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
 
 public class TransMemesCustom extends JavaPlugin implements Listener {
@@ -23,28 +21,39 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 	private ArrayList<Player> players;
 	private ArrayList<PlayerKDR> kdr;
 	
-	private String[] announcements = {
-			"Remember to set your pronouns with \u00A7d/pronouns\u00A76!",
-			"You can use \u00A7d/report\u00A76 to report players who are not behaving appropriately, for example, bypassing the chat filter.",
-			"Have you checked out the shop yet? You can use it anytime to buy valuable items with serotonin, our in-game currency. Try running \u00A7d/buy\u00A76 or \u00A7d/sell\u00A76!",
-			"Want to have your build protected from griefers like the village? Message us on Discord, we'll be glad to help you!",
-			"Want your building masterpiece on display? Message #plot-apps on the Discord server to apply to claim a plot in the village!",
-			"Tell an admin if you have constructive criticism or a suggestion!",
-			"Swearing is fine, but all slurs, including the T slur, are not allowed on this server, as they are a trigger for some people. ",
-			"If you believe you've been muted or banned unfairly, message #ban-appeals on the Discord server.",
-			"Use of tone indicators is highly encouraged! If you don't know what these are or need a refresher, check the trans__memes_ link in bio, or use \u00A7d/tone\u00A76 for the basics.",
-			"Stuck in an area and can't get out? Try warping to the village with \u00A7d/warp spawn\u00A76.",
-			"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
-			"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
-			"We have pride banners! Run \u00A7d/kit pride\u00A76 to receive them.",
-			"Contact an admin if you think an item should be in the shop, but isn't!",
-			"Everyone can redeem \u00A7d/kit starter\u00A76 once! It includes essential items for starting out in SMP.",
-			"Withers are not allowed on the server. If you need a beacon, you can buy one in the shop.",
-			"Think a moderator is abusing their power? Contact an admin or a different moderator on Discord.",
-			"Try \u00A7d/kit daily\u00A76 and \u00A7d/kit monthly\u00A76 for items and serotonin!",
-			"If you donate or have donated $5 or more to a charity or person in need, send us proof of donation and we'll give you the VIP rank, which includes access to \u00A7d/nick\u00A76 and particle trails!",
-			"If you're in combat, don't spam your weapon! Java Edition has an attack cooldown, wait until the sword under your crosshair disappears before attacking again.",
-			"We have a discord server! Check the trans__memes_ link in bio or ask someone for an invite link."
+	private final String[] announcements = {
+		"Remember to set your pronouns with \u00A7d/pronouns\u00A76!",
+		"You can use \u00A7d/report\u00A76 to report players who are not behaving appropriately, for example, bypassing the chat filter.",
+		"Have you checked out the shop yet? You can use it anytime to buy valuable items with serotonin, our in-game currency. Try running \u00A7d/buy\u00A76 or \u00A7d/sell\u00A76!",
+		"Want to have your build protected from griefers like the village? Message us on Discord, we'll be glad to help you!",
+		"Want your building masterpiece on display? Message #plot-apps on the Discord server to apply to claim a plot in the village!",
+		"Tell an admin if you have constructive criticism or a suggestion!",
+		"Swearing is fine, but all slurs, including the T slur, are not allowed on this server, as they are a trigger for some people. ",
+		"If you believe you've been muted or banned unfairly, message #ban-appeals on the Discord server.",
+		"Use of tone indicators is highly encouraged! If you don't know what these are or need a refresher, check the trans__memes_ link in bio, or use \u00A7d/tone\u00A76 for the basics.",
+		"Stuck in an area and can't get out? Try warping to the village with \u00A7d/warp spawn\u00A76.",
+		"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
+		"Did you know? We have skyblock! Run \u00A7d/island\u00A76 to create an island!",
+		"We have pride banners! Run \u00A7d/kit pride\u00A76 to receive them.",
+		"Contact an admin if you think an item should be in the shop, but isn't!",
+		"Everyone can redeem \u00A7d/kit starter\u00A76 once! It includes essential items for starting out in SMP.",
+		"Withers are not allowed on the server. If you need a beacon, you can buy one in the shop.",
+		"Think a moderator is abusing their power? Contact an admin or a different moderator on Discord.",
+		"Try \u00A7d/kit daily\u00A76 and \u00A7d/kit monthly\u00A76 for items and serotonin!",
+		"If you donate or have donated $5 or more to a charity or person in need, send us proof of donation and we'll give you the VIP rank, which includes access to \u00A7d/nick\u00A76 and particle trails!",
+		"If you're in combat, don't spam your weapon! Java Edition has an attack cooldown, wait until the sword under your crosshair disappears before attacking again.",
+		"We have a discord server! Check the trans__memes_ link in bio or ask someone for an invite link."
+	};
+	
+	private final String[] tones = {
+		"/j    - joking",
+		"/hj   - half joking",
+		"/s    - sarcasm",
+		"/srs  - serious",
+		"/nsrs - not serious",
+		"/gen  - genuine / genuine question",
+		"/p    - platonic",
+		"/nm   - not mad"
 	};
 	
 	@Override
@@ -543,21 +552,10 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + sender.getName() + " pp");
 			return true;
 		} else if (command.getName().equalsIgnoreCase("tone")) {
-			String[] tones = {
-				"/j = joking",
-				"hj = half joking",
-				"/s = sarcastic / sarcasm",
-				"/srs = serious",
-				"/nsrs = not serious",
-				"/g = genuine / genuine question",
-				"/ref = reference",
-				"/t = teasing"
-			};
-			
-			for (String tone : tones){
-				sender.sendMessage("\u00A7a" + tone);
+			//for (String tone : tones){
+			for (int i = 0; i < tones.length; i++) {
+				sender.sendMessage("\u00A7a" + tones[i]);
 			}
-
 			return true;
 		}
 		return false;
