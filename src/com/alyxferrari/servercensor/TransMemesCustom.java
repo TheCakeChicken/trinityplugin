@@ -373,7 +373,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			}
 			int num = (int) (Math.random()*100000.0);
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter("C:/Users/Alyx Ferrari/Desktop/report-" + num + ".txt"));
+				BufferedWriter writer = new BufferedWriter(new FileWriter("/home/container/reports/report-" + num + ".txt"));
 				String reason = "";
 				for (int i = 1; i < args.length; i++) {
 					reason += args[i] + " ";
@@ -383,7 +383,7 @@ public class TransMemesCustom extends JavaPlugin implements Listener {
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
-			sender.sendMessage("\u00A7aReport filed successfully!\nPlease refrain from filing multiple reports on the same person, it does not increase the likelyhood of the reportee being banned.");
+			sender.sendMessage("\u00A7aReport filed successfully!\nPlease refrain from filing multiple reports on the same person, it does not increase the likelihood of the reportee being banned.");
 			return true;
 		} else if (command.getName().equalsIgnoreCase("spawn")) {
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + sender.getName() + " warp spawn");
